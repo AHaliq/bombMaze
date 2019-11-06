@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import queue
+
 # IVE ONLY KEYED IN THE FIRST MAZE
 maze_walls = {
   ((0,1),(5,2)):
@@ -109,25 +111,22 @@ def getGridAdjList(walls):
 
 def printShortestPath(adjList, start, end):
   visited = [False for i in range(WDT * HGT)]
-  _, path = solve(adjList, visited, ctoi(start), ctoi(end))
-  path = list(map(itoc,path))
-  path.reverse()
-  return ",".join(map(getDirection, path[: len(path) - 1], path[1:]))
-
-def solve(adjList, visited, start, end):
-  if start == end:
-    return (True, [start])
-  visited[start] = True
-  for n in adjList[start]:
-    if visited[n]:
-      continue
-    found, path = solve(adjList, visited, n, end)
-    if found:
-      path.append(start)
-      return (True, path)
-  return (False, [])
-
-
+  endi = ctoi(end)
+  path = []
+  Q = queue.Queue()
+  Q.put((ctoi(start),[]))
+  while not Q.empty():
+    cur,path = Q.get()
+    visited[cur] = True
+    if cur == endi:
+      path.append(cur)
+      path = list(map(itoc,path))
+      return ",".join(map(getDirection, path[: len(path) - 1], path[1:]))
+    for n in filter(lambda i: not visited[i],adjList[cur]):
+      nextPath = path.copy()
+      nextPath.append(cur)
+      Q.put((n,nextPath))
+  return "no path exist"
 
 print(
   printShortestPath(
