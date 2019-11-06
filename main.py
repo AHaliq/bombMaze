@@ -147,11 +147,19 @@ print(
   printShortestPath(
     getGridAdjList(
       getWalls(
-        (int(input("Circle 1 x:")),
-        int(input("Circle 1 y:"))),
-        (int(input("Circle 2 x:")),
-        int(input("Circle 2 y:"))))),
+        (
+          int(input("Circle 1 x:")),
+          int(input("Circle 1 y:"))
+        ),
+        (
+          int(input("Circle 2 x:")),
+          int(input("Circle 2 y:"))
+        )
+      )
+    ),
     (int(input("start x:")),int(input("start y:"))),
-    (int(input("end x:")),int(input("end y:")))))
+    (int(input("end x:")),int(input("end y:")))
+  )
+)
 
 # I/O -------------------------------------------------------------------------
