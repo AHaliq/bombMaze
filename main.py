@@ -63,19 +63,7 @@ def getWalls (p1, p2):
       return maze_walls[k]
   return None
 
-# determine direction of travel from p1 to p2 if neighbouring
-# if not neighbouring "X" is returned
-def getDirection (p1, p2):
-  x1, y1 = p1
-  if (x1+1,y1) == p2:
-    return "R"
-  elif (x1-1,y1) == p2:
-    return "L"
-  elif (x1,y1+1) == p2:
-    return "D"
-  elif (x1,y1-1) == p2:
-    return "U"
-  return "X"
+# MAZE DATA -------------------------------------------------------------------
 
 # coordinate to index
 def ctoi (p):
@@ -86,10 +74,14 @@ def ctoi (p):
 def itoc (i):
   return (i%WDT,i//WDT)
 
+# COORDINATE CONVERSION -------------------------------------------------------
+
 def getGridAdjList(walls):
-  bWall, rWall = walls
   adjList = [[] for i in range(WDT * HGT)]
   # initialize all to no connection
+  if walls == None:
+    return None
+  bWall, rWall = walls
   for x in range(WDT):
     for y in range(HGT):
       s = (x,y)
@@ -110,6 +102,8 @@ def getGridAdjList(walls):
   return adjList
 
 def printShortestPath(adjList, start, end):
+  if adjList == None:
+    return "No such maze exists, are you sure about those circle coordinates?"
   visited = [False for i in range(WDT * HGT)]
   endi = ctoi(end)
   path = []
@@ -120,13 +114,34 @@ def printShortestPath(adjList, start, end):
     visited[cur] = True
     if cur == endi:
       path.append(cur)
-      path = list(map(itoc,path))
-      return ",".join(map(getDirection, path[: len(path) - 1], path[1:]))
+      return indexPathToDirections(path)
     for n in filter(lambda i: not visited[i],adjList[cur]):
       nextPath = path.copy()
       nextPath.append(cur)
       Q.put((n,nextPath))
   return "no path exist"
+
+# CORE ------------------------------------------------------------------------
+
+# determine direction of travel from p1 to p2 if neighbouring
+# if not neighbouring "X" is returned
+def getDirection (p1, p2):
+  x1, y1 = p1
+  if (x1+1,y1) == p2:
+    return "R"
+  elif (x1-1,y1) == p2:
+    return "L"
+  elif (x1,y1+1) == p2:
+    return "D"
+  elif (x1,y1-1) == p2:
+    return "U"
+  return "X"
+
+def indexPathToDirections (path):
+  path = list(map(itoc,path))
+  return ",".join(map(getDirection, path[: len(path) - 1], path[1:]))
+
+# PRINTING --------------------------------------------------------------------
 
 print(
   printShortestPath(
@@ -138,3 +153,5 @@ print(
         int(input("Circle 2 y:"))))),
     (int(input("start x:")),int(input("start y:"))),
     (int(input("end x:")),int(input("end y:")))))
+
+# I/O -------------------------------------------------------------------------
