@@ -106,7 +106,6 @@ def printShortestPath(adjList, start, end):
     return "No such maze exists, are you sure about those circle coordinates?"
   visited = [False for i in range(WDT * HGT)]
   endi = ctoi(end)
-  path = []
   Q = queue.Queue()
   Q.put((ctoi(start),[]))
   while not Q.empty():
