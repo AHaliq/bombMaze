@@ -77,10 +77,10 @@ def itoc (i):
 # COORDINATE CONVERSION -------------------------------------------------------
 
 def getGridAdjList(walls):
-  adjList = [[] for i in range(WDT * HGT)]
-  # initialize all to no connection
   if walls == None:
     return None
+  adjList = [[] for i in range(WDT * HGT)]
+  # initialize all to no connection
   bWall, rWall = walls
   for x in range(WDT):
     for y in range(HGT):
@@ -105,18 +105,16 @@ def printShortestPath(adjList, start, end):
   if adjList == None:
     return "No such maze exists, are you sure about those circle coordinates?"
   visited = [False for i in range(WDT * HGT)]
-  endi = ctoi(end)
   Q = queue.Queue()
   Q.put((ctoi(start),[]))
   while not Q.empty():
     cur,path = Q.get()
     visited[cur] = True
-    if cur == endi:
-      path.append(cur)
-      return indexPathToDirections(path)
+    nextPath = path.copy()
+    nextPath.append(cur)
+    if cur == ctoi(end):
+      return indexPathToDirections(nextPath)
     for n in filter(lambda i: not visited[i],adjList[cur]):
-      nextPath = path.copy()
-      nextPath.append(cur)
       Q.put((n,nextPath))
   return "no path exist"
 
