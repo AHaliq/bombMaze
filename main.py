@@ -108,7 +108,7 @@ def getGridAdjList(walls):
   return adjList
 
 def printShortestPath(adjList, start, end):
-  visited = [0 for i in range(WDT * HGT)]
+  visited = [False for i in range(WDT * HGT)]
   _, path = solve(adjList, visited, ctoi(start), ctoi(end))
   path = list(map(itoc,path))
   path.reverse()
@@ -117,7 +117,7 @@ def printShortestPath(adjList, start, end):
 def solve(adjList, visited, start, end):
   if start == end:
     return (True, [start])
-  visited[start] = 1
+  visited[start] = True
   for n in adjList[start]:
     if visited[n]:
       continue
