@@ -138,6 +138,9 @@ def indexPathToDirections (path):
   path = list(map(itoc,path))
   return ",".join(map(getDirection, path[: len(path) - 1], path[1:]))
 
+def getInput(str):
+  return int(input(str)) - 1
+
 # PRINTING --------------------------------------------------------------------
 
 print(
@@ -145,17 +148,17 @@ print(
     getGridAdjList(
       getWalls(
         (
-          int(input("Circle 1 x:")),
-          int(input("Circle 1 y:"))
+          getInput("Circle 1 x:"),
+          getInput("Circle 1 y:")
         ),
         (
-          int(input("Circle 2 x:")),
-          int(input("Circle 2 y:"))
+          getInput("Circle 2 x:"),
+          getInput("Circle 2 y:")
         )
       )
     ),
-    (int(input("start x:")),int(input("start y:"))),
-    (int(input("end x:")),int(input("end y:")))
+    (getInput("start x:"),getInput("start y:")),
+    (getInput("end x:"),getInput("end y:"))
   )
 )
 
